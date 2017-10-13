@@ -1,7 +1,10 @@
 
+#finds next shortest legal connection to add to path observing:
+#1. don't close loop early
+#2. don't visit same none twice
 
 #for stability
-set.seed(19)
+#set.seed(19)
 
 #find the distance between two points given x and y vals
 find_dist <- function(x1, y1, x2, y2){
@@ -68,13 +71,33 @@ for(i in distOrd){
   }
 }
 
-#print connects
-connects
 
-#order nodeDists and use the shortest connection
-#use get_conn to find the connected nodes
-#find next shortest connection always adding used nodes to pile
-#all nodes to be used precisely twice and no closing the loop early
+xCoords <- c()
+yCoords <- c()
+
+
+# leftovers <- c()
+# 
+# for(i in 1:k){
+#   if(sum(i == connects) == 1){
+#     leftovers <- c(leftovers, i)
+#   }
+# }
+
+plot(xVals, yVals)
+for(i in seq(by = 2, length.out = (k * 2))){
+  lines(xVals[connects[i:(i + 1)]], yVals[connects[i:(i + 1)]])
+}
+#lines(xVals[leftovers], yVals[leftovers])
+
+# for(i in seq(from = 1, by = 2, length.out = (k / 2))){
+#   ablines(xVals[connects[i]], yVals[connects[i]])
+#   ablines(yVals[connects[i + 1]], yVals[connects[i + 1]])
+# }
+
+
+
+
 
 
 
