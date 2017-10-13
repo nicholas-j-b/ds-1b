@@ -38,7 +38,7 @@ get_conn <- function(a){
 }
 
 #no. points
-k <- 6
+k <- 30
 
 #gen points
 xVals <- runif(k, 0, 1)
