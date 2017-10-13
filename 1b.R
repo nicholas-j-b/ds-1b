@@ -1,6 +1,6 @@
 library(plotly)
 
-set.seed(6)
+set.seed(7)
 
 d1 <- runif(10, 0, 1)
 d2 <- runif(10, 0, 1)
