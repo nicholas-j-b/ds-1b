@@ -1,6 +1,6 @@
 library(plotly)
 
-set.seed(5)
+set.seed(6)
 
 d1 <- runif(10, 0, 1)
 d2 <- runif(10, 0, 1)
@@ -8,8 +8,8 @@ d2 <- runif(10, 0, 1)
 p1 <- mean(d1)
 p2 <- mean(d2)
 
-matSize <- 41
-devDist <- .1
+matSize <- 81
+devDist <- .3
 
 p1 <- seq(from = (p1 - devDist), to = (p1 + devDist), length.out = matSize)
 p2 <- seq(from = (p2 - devDist), to = (p2 + devDist), length.out = matSize)
