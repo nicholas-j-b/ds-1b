@@ -8,7 +8,7 @@ d2 <- runif(10, 0, 1)
 p1 <- mean(d1)
 p2 <- mean(d2)
 
-matSize <- 81
+matSize <- 121
 devDist <- .3
 
 p1 <- seq(from = (p1 - devDist), to = (p1 + devDist), length.out = matSize)
