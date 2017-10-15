@@ -40,7 +40,7 @@ get_conn <- function(a){
 #check for short loop
 check_loop <- function(funCon1, funCon2){
   #if end found then okay to use connection
-  if(sum(funCon1 == connects) == 1 | sum(funCon2 == connects) == 1){
+  if((sum(funCon1 == connects) == 1) | (sum(funCon2 == connects) == 1)){
     print("allowed")
     print(funCon1)
     print(funCon2)
@@ -50,19 +50,19 @@ check_loop <- function(funCon1, funCon2){
     return(TRUE)
   }
 
-  #set newPos to next node in each direction along already connected lines
-  pos1 <- which(loopList %in% connects[c(TRUE, FALSE)])
-  pos2 <- which(loopList %in% connects[c(FALSE, TRUE)])
-  pos1 <- pos1[length(pos1)]
-  pos2 <- pos2[length(pos2)]
-  newPos1 <- connects[c(FALSE, TRUE)][pos1]
-  newPos2 <- connects[c(TRUE, FALSE)][pos2]
+  #set newPos to next node in one direction along already connected lines
+  pos1 <- which(loopList[length(loopList)] %in% connects[c(TRUE, FALSE)])
+  pos2 <- which(loopList[length(loopList)] %in% connects[c(FALSE, TRUE)])
+  newPos <- c(connects[c(FALSE, TRUE)][pos1], connects[c(TRUE, FALSE)][pos2])
+  newPos <- newPos[newPos != funCon1]
+  
   
   #if loop closes
-  if(((sum(newPos1 %in% loopList)) | (sum(newPos2 %in% loopList)))){
+  if(sum(newPos %in% loopList)){
     print("loop would have closed")
-    print(newPos1)
-    print(newPos2)
+    print(conn1)
+    print(conn2)
+    print(newPos)
     print(funCon1)
     print(funCon2)
     print(loopList)
@@ -71,8 +71,8 @@ check_loop <- function(funCon1, funCon2){
   }
   
   #if string goes on, keep checking
-  loopList <<- c(loopList, newPos1, newPos2)
-  check_loop(newPos1, newPos2)
+  loopList <<- c(loopList, newPos)
+  check_loop(funCon2, newPos)
 }
 
 #no. points
@@ -111,34 +111,28 @@ for(i in distOrd){
     next
   }
   #--no short loop
-  if(sum(conn1 == connects) == 2 & sum(conn2 == connects) == 2){
-    loopList <<- c(conn1, conn2)
-    if(!check_loop(conn1, conn2)){
-      #pop dirty connects
-      connects <<- connects[1:(length(connects) - 2)]
-      next
-    }
+  loopList <<- c(conn1, conn2)
+  if(!check_loop(conn1, conn2)){
+    #pop dirty connects
+    connects <<- connects[1:(length(connects) - 2)]
+    next
   }
 }
 
+leftovers <- c()
 
-xCoords <- c()
-yCoords <- c()
-
-
-# leftovers <- c()
-# 
-# for(i in 1:k){
-#   if(sum(i == connects) == 1){
-#     leftovers <- c(leftovers, i)
-#   }
-# }
+for(i in 1:k){
+  if(sum(i == connects) == 1){
+    leftovers <- c(leftovers, i)
+  }
+}
 
 plot(xVals, yVals, type = "n")
 text(xVals, yVals, labels = (1:k))
 for(i in seq(by = 2, length.out = (k * 2))){
   lines(xVals[connects[i:(i + 1)]], yVals[connects[i:(i + 1)]], col = "red")
 }
+lines(xVals[leftovers[1:2]], yVals[leftovers[1:2]], col = "red")
 
 
 
