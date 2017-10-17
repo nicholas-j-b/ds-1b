@@ -24,6 +24,7 @@
 #compares final outcome with guess
 
 
+#install.packages("plotly")
 library(plotly)
 
 #setup board
