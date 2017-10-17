@@ -19,8 +19,9 @@
 #small script to address the problem of finding the geometric median
 #generates random points with x value and y value each between 0 and 1
 #calculates the mean of the x and y values separately and uses that as guess
-#builds a rasta over the [0,1]^2 region and calculates sum of distances to all points for each intersection
-
+#builds a raster over the [0,1]^2 region and calculates sum of distances to all points for each intersection
+#iteratively zooms in on area surrounding minimum to refine raster
+#compares final outcome with guess
 
 
 library(plotly)
@@ -37,7 +38,7 @@ yMean <- mean(yVals)
 #constants
 matSize <- 61
 
-#setup rasta
+#setup raster
 matx <- seq(from = 0, to = 1, length.out = matSize)
 maty <- seq(from = 0, to = 1, length.out = matSize)
 zVals <- matrix(0, nrow = matSize, ncol = matSize)
@@ -60,10 +61,10 @@ print(maty[minXY[1,2]])
 p <- plot_ly(x = matx, y = maty, z = zVals)
 p <- p %>% add_surface()
 
-
+#zoom and repeat
 h <- 1
 while(TRUE){
-  #setup rasta
+  #setup raster
   matx <- seq(from = matx[minXY[1,1]] - (1 / (2^h)), to = matx[minXY[1,1]] + (1 / (2^h)), length.out = matSize)
   maty <- seq(from = maty[minXY[1,2]] - (1 / (2^h)), to = maty[minXY[1,2]] + (1 / (2^h)), length.out = matSize)
   zVals <- matrix(0, nrow = matSize, ncol = matSize)
@@ -77,6 +78,7 @@ while(TRUE){
     }
   }
   
+  #stop process if zoom made no difference
   tempXY <- which(zVals == min(zVals), arr.ind = TRUE)
   if(tempXY[1,1] == minXY[1,1] & tempXY[1,2] == minXY[1,2]){
     break
@@ -89,8 +91,8 @@ while(TRUE){
 cat("number of iterations: ", h)
 cat("final solution: (", matx[minXY[1,1]], maty[minXY[1,2]], ")")
 
+#create zoomed in heatmap
 q <- plot_ly(z = zVals, x = matx, y = maty, type = "heatmap")
-
 
 #measure accuracy of guess
 sqrt((xMean - matx[minXY[1]])**2 + (yMean - maty[minXY[2]])**2)
