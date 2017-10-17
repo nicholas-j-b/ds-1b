@@ -99,8 +99,11 @@ q <- plot_ly(z = zVals, x = matx, y = maty, type = "heatmap")
 sqrt((xMean - matx[minXY[1]])**2 + (yMean - maty[minXY[2]])**2)
 
 #graph points
+#red- answer
+#blue- guess
 r <- plot(xVals, yVals, xlim = c(0, 1), ylim = c(0, 1))
 r <- points(matx[minXY[1,1]], maty[minXY[1,2]], col = "red")
+r <- points(xMean, yMean, col = "blue")
 
 #show graph
 #type q into console for zoomed in heatmap or p for 3d surface
