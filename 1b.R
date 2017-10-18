@@ -22,6 +22,8 @@
 #builds a raster over the [0,1]^2 region and calculates sum of distances to all points for each intersection
 #iteratively zooms in on area surrounding minimum to refine raster
 #compares final outcome with guess
+#example graph can be found under:
+#https://plot.ly/~nicholasb/4/
 
 
 #install.packages("plotly")
@@ -109,5 +111,7 @@ r <- points(xMean, yMean, col = "blue")
 #type q into console for zoomed in heatmap or p for 3d surface
 p
 
+
+#api_create(p, filename = "1b-graph-1", sharing = "public")
 
 
