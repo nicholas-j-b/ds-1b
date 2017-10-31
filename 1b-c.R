@@ -25,19 +25,6 @@
 #example graph can be found under:
 #https://plot.ly/~nicholasb/4/
 
-#runtimes
-# n : number of nodes
-# h : number of runs(zooms plus initial)
-# t : time in seconds
-# a : distance between mean and median
-
-# n = 8, t * h = 0.107, a = 0.089
-# n = 12, t * h = 0.164, a = 0.062
-# n = 25, t * h = 0.322, a = 0.067
-# n = 100, t * h = 1.136, a = 0.026
-# n = 200, t * h = 3.14, a = 0.011
-# n = 500, t * h = 6.96, a = 0.009
-
 
 #install.packages("plotly")
 library(plotly)
@@ -46,26 +33,19 @@ library(plotly)
 ptm <- proc.time()
 
 #setup board
-numPoints <- 54
-# xVals <- runif(numPoints, 0, 1)
-# yVals <- runif(numPoints, 0, 1)
+numPoints <- 24
+xVals <- runif(numPoints, 0, 1)
+yVals <- runif(numPoints, 0, 1)
 
-# xVals <- c(.3, .5, .7)
-# yVals <- c(.3, .8, .4)
-
-xVals <- c(runif(numPoints / 3, .1, .1), runif((2 * numPoints) / 3, .9, .9))
-yVals <- c(runif(2 * numPoints / 3, .4, .6), runif((numPoints) / 3, 0, 1))
+# xVals <- c(runif(numPoints / 3, 0, .2), runif((2 * numPoints) / 3, .8, 1))
+# yVals <- c(runif(2 * numPoints / 3, .4, .6), runif((numPoints) / 3, 0, 1))
 
 #calculate guess
 xMean <- mean(xVals)
 yMean <- mean(yVals)
 
-#calculate 1d medians
-xMedian <- median(xVals)
-yMedian <- median(yVals)
-
 #constants
-matSize <- 61
+matSize <- 601
 
 #setup raster
 matx <- seq(from = 0, to = 1, length.out = matSize)
@@ -131,12 +111,10 @@ sqrt((xMean - matx[minXY[1]])**2 + (yMean - maty[minXY[2]])**2)
 
 #graph points
 #red- answer
-#blue- guess, mean
-#orange - 1d medians
+#blue- guess
 r <- plot(xVals, yVals, xlim = c(0, 1), ylim = c(0, 1))
 r <- points(matx[minXY[1,1]], maty[minXY[1,2]], col = "red", pch = 4, cex = 4)
 r <- points(xMean, yMean, col = "blue", pch = 4, cex = 4)
-r <- points(xMedian, yMedian, col = "orange", pch = 4, cex = 4)
 
 #show graph
 #type q into console for zoomed in heatmap or p for 3d surface
@@ -144,6 +122,6 @@ r <- points(xMedian, yMedian, col = "orange", pch = 4, cex = 4)
 p
 
 
-#api_create(p, filename = "1b-graph-[name]", sharing = "public")
+#api_create(p, filename = "1b-graph-1", sharing = "public")
 
 
